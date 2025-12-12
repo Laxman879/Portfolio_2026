@@ -38,8 +38,8 @@ const contactInfo = [
   {
     icon: HiPhone,
     label: "Phone",
-    value: "+91 8179318596",
-    href: "tel:+918179318596",
+    value: "+91 9347518596",
+    href: "tel:+919347518596",
   },
   {
     icon: HiLocationMarker,
