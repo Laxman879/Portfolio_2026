@@ -12,15 +12,17 @@ export async function PUT(req) {
       aboutme,
       noofprojects,
       yearofexperience,
-      nooflclients,
+      noofclients,
       skills,
+      highlights,
+      skillsDescription,
     } = extractData;
 
     const updateData = await About.findOneAndUpdate(
       {
         _id: _id,
       },
-      { aboutme, noofprojects, yearofexperience, nooflclients, skills },
+      { aboutme, noofprojects, yearofexperience, noofclients, skills, highlights, skillsDescription },
       { new: true }
     );
 
