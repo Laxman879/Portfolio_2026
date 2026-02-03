@@ -21,71 +21,28 @@ const SectionSkeleton = () => (
   </div>
 );
 
-async function extractAllDatas(currentSection) {
-  try {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_BASE_URL
-      : 'http://localhost:3000';
-      
-    const res = await fetch(`${baseUrl}/api/${currentSection}/get`, {
-      method: "GET",
-      cache: "no-store",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!res.ok) {
-      console.warn(`Failed to fetch ${currentSection} data:`, res.status);
-      return null;
-    }
-
-    const data = await res.json();
-    return data && data.data;
-  } catch (error) {
-    console.warn(`Error fetching ${currentSection} data:`, error);
-    return null;
-  }
-}
-
-export default async function Home() {
-  // Fetch all data with error handling
-  const [homeSectionData, aboutSectionData, experienceSectionData, educationSectionData, projectSectionData] = await Promise.allSettled([
-    extractAllDatas("home"),
-    extractAllDatas("about"),
-    extractAllDatas("experience"),
-    extractAllDatas("education"),
-    extractAllDatas("project"),
-  ]);
-
-  // Extract successful results
-  const homeData = homeSectionData.status === 'fulfilled' ? homeSectionData.value : null;
-  const aboutData = aboutSectionData.status === 'fulfilled' ? aboutSectionData.value : null;
-  const experienceData = experienceSectionData.status === 'fulfilled' ? experienceSectionData.value : null;
-  const educationData = educationSectionData.status === 'fulfilled' ? educationSectionData.value : null;
-  const projectData = projectSectionData.status === 'fulfilled' ? projectSectionData.value : null;
-
+export default function Home() {
+  // For GitHub Pages static export, we'll pass null data
+  // Components will use their default/fallback data
   return (
     <main className="overflow-x-hidden">
       <Suspense fallback={<SectionSkeleton />}>
-        <ClientHomeView data={homeData} />
+        <ClientHomeView data={null} />
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
-        <ClientAboutView
-          data={aboutData && aboutData.length ? aboutData[0] : null}
-        />
+        <ClientAboutView data={null} />
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
         <ClientExperienceAndEducationView
-          educationData={educationData}
-          experienceData={experienceData}
+          educationData={null}
+          experienceData={null}
         />
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
-        <ClientProjectView data={projectData} />
+        <ClientProjectView data={null} />
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
