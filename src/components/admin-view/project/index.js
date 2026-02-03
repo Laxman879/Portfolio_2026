@@ -100,6 +100,14 @@ export default function AdminProjectView({ formData, setFormData , handleSaveDat
                       {item.website && (
                         <a 
                           href={item.website} 
+                          onClick={() => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "live_demo_click",
+    project_name: "Amazon Spend Tracker",
+  });
+}}
+
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 transition-colors"
@@ -112,6 +120,14 @@ export default function AdminProjectView({ formData, setFormData , handleSaveDat
                       {item.github && (
                         <a 
                           href={item.github} 
+                          onClick={() => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "github_code_click",
+    project_name: "Amazon Spend Tracker",
+  });
+}}
+
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="flex items-center gap-1 text-sm text-gray-700 hover:text-gray-900 transition-colors"

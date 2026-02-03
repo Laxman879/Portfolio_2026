@@ -68,7 +68,7 @@ export default function ClientHomeView({ data }) {
   const renderHeading = () => {
     if (!data || !data.length) {
       return (
-      <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight">
+        <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight">
           <span className="text-secondary-100">Hello, I'm a </span>
           <span className="text-gradient">Full Stack Developer</span>
         </h1>
@@ -125,6 +125,12 @@ export default function ClientHomeView({ data }) {
                   className="btn-primary flex items-center gap-2 no-underline"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                      event: 'resume_download',
+                    });
+                  }}
                 >
                   <HiDownload className="w-5 h-5" />
                   Download CV

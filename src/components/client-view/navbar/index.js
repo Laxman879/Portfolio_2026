@@ -32,6 +32,25 @@ export default function Navbar() {
 
   const handleNavClick = (id, name) => {
     setActiveTab(name);
+    
+    // Analytics tracking for both GA4 and GTM
+    if (window.gtag) {
+      // GA4 event tracking
+      window.gtag('event', 'navigation_click', {
+        section_name: name,
+        section_id: id
+      });
+    }
+    
+    // GTM dataLayer (if you add GTM later)
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: "navigation_click",
+        section_name: name,
+        section_id: id
+      });
+    }
+    
     scroller.scrollTo(id, {
       duration: 800,
       delay: 0,

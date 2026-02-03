@@ -92,6 +92,15 @@ const ProjectCard = ({ project, index }) => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                onClick={() => {
+                  if (window.dataLayer) {
+                    window.dataLayer.push({
+                      event: "project_view",
+                      project_name: project?.name || `Project ${index + 1}`,
+                      action: "live_demo"
+                    });
+                  }
+                }}
               >
                 <HiGlobe className="w-4 h-4" />
                 Live Demo
@@ -104,6 +113,15 @@ const ProjectCard = ({ project, index }) => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 text-sm text-secondary-400 hover:text-white transition-colors"
+                onClick={() => {
+                  if (window.dataLayer) {
+                    window.dataLayer.push({
+                      event: "project_view",
+                      project_name: project?.name || `Project ${index + 1}`,
+                      action: "view_code"
+                    });
+                  }
+                }}
               >
                 <FaGithub className="w-4 h-4" />
                 Code
