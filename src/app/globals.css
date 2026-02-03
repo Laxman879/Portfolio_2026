@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: #0B1121;
+    color: #F5F7FA;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #00B894;
+    color: #000000;
+  }
+  
+  * {
+    border-color: #323F4B;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl 
+           transition-all duration-300 shadow-glow hover:bg-primary-400 
+           hover:scale-105 hover:shadow-glow-strong active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 border-2 border-primary-500 text-primary-500 font-semibold 
+           rounded-xl transition-all duration-300 bg-transparent
+           hover:bg-primary-500 hover:text-white hover:scale-105 
+           hover:shadow-glow active:scale-95;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-card-gradient border border-surface rounded-2xl p-6
+           shadow-medium transition-all duration-300 hover:-translate-y-2
+           hover:shadow-strong hover:border-primary-500/30;
+  }
+  
+  /* Layout */
+  .section-padding {
+    @apply py-20 px-6 sm:px-12 lg:px-24;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+  
+  /* Typography */
+  .heading-xl {
+    @apply text-4xl lg:text-6xl font-bold leading-tight tracking-tight;
+  }
+  
+  .heading-lg {
+    @apply text-3xl lg:text-4xl font-bold mb-6;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600;
+  }
+  
+  /* Utilities */
+  .glass-effect {
+    @apply bg-secondary-900/70 backdrop-blur-lg border border-white/10;
+  }
+
+  .animation-hover {
+    position: relative;
+  }
+  
+  .animation-hover:after {
+    content: "";
+    @apply absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary-500 transition-all duration-300;
+  }
+  
+  .animation-hover:hover:after,
+  .animation-active:after {
+    @apply left-0 w-full;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #00B894 #0B1121;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #0B1121;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #00B894;
+    border-radius: 9999px;
+  }
+}
+
+/* Custom project wrapper styles */
+.project-wrapper {
+  display: flex;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #00B894 transparent;
+  padding: 24px 4px;
+  gap: 32px;
+}
+
+.project-wrapper li {
+  flex: 0 0 340px;
+}
+
+/* MUI Overrides if needed */
+.MuiTimelineDot-root {
+  background-color: #00B894 !important;
+  box-shadow: 0 0 10px rgba(0, 184, 148, 0.5) !important;
+}
+
+.MuiTimelineConnector-root {
+  background-color: #323F4B !important;
+}
+
+
+
+
+
