@@ -16,6 +16,30 @@ const controls = [
     type: "textarea",
     label: "Career Summary",
   },
+  {
+    name: "githubUrl",
+    placeholder: "https://github.com/username",
+    type: "text",
+    label: "GitHub URL",
+  },
+  {
+    name: "linkedinUrl",
+    placeholder: "https://linkedin.com/in/username",
+    type: "text",
+    label: "LinkedIn URL",
+  },
+  {
+    name: "twitterUrl",
+    placeholder: "https://twitter.com/username",
+    type: "text",
+    label: "Twitter URL",
+  },
+  {
+    name: "instagramUrl",
+    placeholder: "https://instagram.com/username",
+    type: "text",
+    label: "Instagram URL",
+  },
 ];
 
 export default function AdminHomeView({ formData, setFormData, handleSaveData }) {

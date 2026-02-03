@@ -4,6 +4,10 @@ const HomeSchema = new mongoose.Schema(
   {
     heading: String,
     summary: String,
+    githubUrl: String,
+    linkedinUrl: String,
+    twitterUrl: String,
+    instagramUrl: String,
   },
   { timestamps: true }
 );

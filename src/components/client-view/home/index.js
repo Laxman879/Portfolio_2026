@@ -8,33 +8,6 @@ import { HiDownload, HiArrowDown } from 'react-icons/hi';
 import Image from 'next/image';
 import aiImage from '../../../assets/Lucky.png';
 
-const socialIcons = [
-  {
-    id: 'github',
-    icon: FaGithub,
-    href: 'https://github.com/laxman8596',
-    label: 'GitHub',
-  },
-  {
-    id: 'linkedin',
-    icon: FaLinkedinIn,
-    href: 'https://www.linkedin.com/in/laxmanannaboina/',
-    label: 'LinkedIn',
-  },
-  {
-    id: 'twitter',
-    icon: FaTwitter,
-    href: 'https://x.com/Lucky__software',
-    label: 'Twitter',
-  },
-  {
-    id: 'instagram',
-    icon: FaInstagram,
-    href: 'https://www.instagram.com/lucky__software/',
-    label: 'Instagram',
-  },
-];
-
 const textVariants = {
   offscreen: { y: 50, opacity: 0 },
   onscreen: {
@@ -65,12 +38,38 @@ const imageVariants = {
 export default function ClientHomeView({ data }) {
   const containerRef = useRef(null);
 
+  const socialIcons = [
+    {
+      id: 'github',
+      icon: FaGithub,
+      href: data && data.length ? data[0]?.githubUrl || '#' : '#',
+      label: 'GitHub',
+    },
+    {
+      id: 'linkedin',
+      icon: FaLinkedinIn,
+      href: data && data.length ? data[0]?.linkedinUrl || '#' : '#',
+      label: 'LinkedIn',
+    },
+    {
+      id: 'twitter',
+      icon: FaTwitter,
+      href: data && data.length ? data[0]?.twitterUrl || '#' : '#',
+      label: 'Twitter',
+    },
+    {
+      id: 'instagram',
+      icon: FaInstagram,
+      href: data && data.length ? data[0]?.instagramUrl || '#' : '#',
+      label: 'Instagram',
+    },
+  ];
+
   const renderHeading = () => {
     if (!data || !data.length) {
       return (
         <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight">
-          <span className="text-secondary-100">Hello, I'm a </span>
-          <span className="text-gradient">Full Stack Developer</span>
+          <span className="text-secondary-100">Loading...</span>
         </h1>
       );
     }
@@ -109,7 +108,7 @@ export default function ClientHomeView({ data }) {
               >
                 {data && data.length
                   ? data[0]?.summary
-                  : 'I create beautiful, responsive web applications with modern technologies and best practices.'}
+                  : 'Loading...'}
               </motion.p>
 
               {/* CTA Buttons */}
