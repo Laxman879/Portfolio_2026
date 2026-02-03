@@ -1,5 +1,3 @@
-"use client";
-
 import { Suspense, useEffect, useState } from "react";
 import ClientAboutView from "@/components/client-view/about";
 import ClientContactView from "@/components/client-view/contact";
@@ -23,83 +21,71 @@ const SectionSkeleton = () => (
   </div>
 );
 
-async function fetchData(section) {
+async function extractAllDatas(currentSection) {
   try {
     const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_BASE_URL || window.location.origin
+      ? process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL
       : 'http://localhost:3000';
       
-    const res = await fetch(`${baseUrl}/api/${section}/get`, {
+    const res = await fetch(`${baseUrl}/api/${currentSection}/get`, {
       method: "GET",
       cache: "no-store",
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.warn(`Failed to fetch ${currentSection} data:`, res.status);
+      return null;
+    }
+
     const data = await res.json();
-    return data?.data || null;
+    return data && data.data;
   } catch (error) {
-    console.warn(`Error fetching ${section}:`, error);
+    console.warn(`Error fetching ${currentSection} data:`, error);
     return null;
   }
 }
 
-export default function Home() {
-  const [data, setData] = useState({
-    home: null,
-    about: null,
-    experience: null,
-    education: null,
-    project: null
-  });
-  const [loading, setLoading] = useState(true);
+export default async function Home() {
+  // Fetch all data with error handling
+  const [homeSectionData, aboutSectionData, experienceSectionData, educationSectionData, projectSectionData] = await Promise.allSettled([
+    extractAllDatas("home"),
+    extractAllDatas("about"),
+    extractAllDatas("experience"),
+    extractAllDatas("education"),
+    extractAllDatas("project"),
+  ]);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [homeData, aboutData, experienceData, educationData, projectData] = await Promise.allSettled([
-          fetchData("home"),
-          fetchData("about"),
-          fetchData("experience"),
-          fetchData("education"),
-          fetchData("project"),
-        ]);
-
-        setData({
-          home: homeData.status === 'fulfilled' ? homeData.value : null,
-          about: aboutData.status === 'fulfilled' ? aboutData.value : null,
-          experience: experienceData.status === 'fulfilled' ? experienceData.value : null,
-          education: educationData.status === 'fulfilled' ? educationData.value : null,
-          project: projectData.status === 'fulfilled' ? projectData.value : null
-        });
-      } catch (error) {
-        console.warn('Error loading data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
+  // Extract successful results
+  const homeData = homeSectionData.status === 'fulfilled' ? homeSectionData.value : null;
+  const aboutData = aboutSectionData.status === 'fulfilled' ? aboutSectionData.value : null;
+  const experienceData = experienceSectionData.status === 'fulfilled' ? experienceSectionData.value : null;
+  const educationData = educationSectionData.status === 'fulfilled' ? educationSectionData.value : null;
+  const projectData = projectSectionData.status === 'fulfilled' ? projectSectionData.value : null;
 
   return (
     <main className="overflow-x-hidden">
       <Suspense fallback={<SectionSkeleton />}>
-        <ClientHomeView data={data.home} />
+        <ClientHomeView data={homeData} />
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
-        <ClientAboutView data={data.about?.[0] || null} />
-      </Suspense>
-      
-      <Suspense fallback={<SectionSkeleton />}>
-        <ClientExperienceAndEducationView
-          educationData={data.education}
-          experienceData={data.experience}
+        <ClientAboutView
+          data={aboutData && aboutData.length ? aboutData[0] : null}
         />
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
-        <ClientProjectView data={data.project} />
+        <ClientExperienceAndEducationView
+          educationData={educationData}
+          experienceData={experienceData}
+        />
+      </Suspense>
+      
+      <Suspense fallback={<SectionSkeleton />}>
+        <ClientProjectView data={projectData} />
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
