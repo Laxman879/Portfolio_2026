@@ -9,108 +9,87 @@
   }
   
   body {
-    background-color: #ffffff;
-    color: #0f172a;
+    background-color: #0B1121;
+    color: #F5F7FA;
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #00B894;
+    color: #000000;
   }
   
   * {
-    border-color: #e2e8f0;
+    border-color: #323F4B;
   }
 }
 
 @layer components {
+  /* Buttons */
   .btn-primary {
-    padding: 0.75rem 1.5rem;
-    background-color: #22c55e;
-    color: #ffffff;
-    font-weight: 600;
-    border-radius: 0.75rem;
-    transition: all 0.3s;
-    outline: none;
-  }
-  
-  .btn-primary:hover {
-    background-color: #16a34a;
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-    transform: scale(1.05);
+    @apply px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl 
+           transition-all duration-300 shadow-glow hover:bg-primary-400 
+           hover:scale-105 hover:shadow-glow-strong active:scale-95;
   }
   
   .btn-secondary {
-    padding: 0.75rem 1.5rem;
-    border: 2px solid #22c55e;
-    color: #22c55e;
-    font-weight: 600;
-    border-radius: 0.75rem;
-    transition: all 0.3s;
-    outline: none;
-    background: transparent;
+    @apply px-6 py-3 border-2 border-primary-500 text-primary-500 font-semibold 
+           rounded-xl transition-all duration-300 bg-transparent
+           hover:bg-primary-500 hover:text-white hover:scale-105 
+           hover:shadow-glow active:scale-95;
   }
-  
-  .btn-secondary:hover {
-    background-color: #22c55e;
-    color: #ffffff;
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-    transform: scale(1.05);
-  }
-  
+
+  /* Cards */
   .card {
-    background-color: #ffffff;
-    border-radius: 1rem;
-    box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.07);
-    transition: all 0.3s;
-    border: 1px solid #f1f5f9;
+    @apply bg-card-gradient border border-surface rounded-2xl p-6
+           shadow-medium transition-all duration-300 hover:-translate-y-2
+           hover:shadow-strong hover:border-primary-500/30;
   }
   
-  .card:hover {
-    box-shadow: 0 4px 25px -5px rgba(0, 0, 0, 0.1);
-  }
-  
+  /* Layout */
   .section-padding {
-    padding: 5rem 1.5rem;
+    @apply py-20 px-6 sm:px-12 lg:px-24;
   }
   
   .container-custom {
-    max-width: 80rem;
-    margin: 0 auto;
+    @apply max-w-7xl mx-auto;
+  }
+  
+  /* Typography */
+  .heading-xl {
+    @apply text-4xl lg:text-6xl font-bold leading-tight tracking-tight;
+  }
+  
+  .heading-lg {
+    @apply text-3xl lg:text-4xl font-bold mb-6;
   }
   
   .text-gradient {
-    background: linear-gradient(to right, #22c55e, #15803d);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600;
   }
   
+  /* Utilities */
+  .glass-effect {
+    @apply bg-secondary-900/70 backdrop-blur-lg border border-white/10;
+  }
+
   .animation-hover {
     position: relative;
-    overflow: hidden;
   }
   
   .animation-hover:after {
     content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: #22c55e;
-    transition: all 0.3s ease-out;
+    @apply absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary-500 transition-all duration-300;
   }
   
   .animation-hover:hover:after,
   .animation-active:after {
-    left: 0;
-    width: 100%;
-  }
-  
-  .glass-effect {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    @apply left-0 w-full;
   }
 }
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -123,7 +102,7 @@
   
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: #22c55e transparent;
+    scrollbar-color: #00B894 #0B1121;
   }
   
   .scrollbar-thin::-webkit-scrollbar {
@@ -132,72 +111,38 @@
   }
   
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
+    background: #0B1121;
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: #22c55e;
-    border-radius: 3px;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background-color: #16a34a;
+    background-color: #00B894;
+    border-radius: 9999px;
   }
 }
-/* Custom project styles */
+
+/* Custom project wrapper styles */
 .project-wrapper {
   display: flex;
   list-style: none;
   overflow-x: auto;
   scrollbar-width: thin;
-  scrollbar-color: #22c55e transparent;
-  height: 400px;
-  padding: 20px 0;
-  gap: 24px;
+  scrollbar-color: #00B894 transparent;
+  padding: 24px 4px;
+  gap: 32px;
 }
 
 .project-wrapper li {
-  flex: 0 0 320px;
+  flex: 0 0 340px;
 }
 
-.progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background-color: #22c55e;
-  z-index: 50;
-  transform-origin: 0%;
-}
-
-/* MUI Timeline overrides */
-.MuiTimelineItem-root::before {
-  flex: 0 !important;
-}
-
+/* MUI Overrides if needed */
 .MuiTimelineDot-root {
-  background-color: #22c55e !important;
+  background-color: #00B894 !important;
+  box-shadow: 0 0 10px rgba(0, 184, 148, 0.5) !important;
 }
 
 .MuiTimelineConnector-root {
-  background-color: #22c55e !important;
-}
-
-/* Loading animation */
-@keyframes shimmer {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: calc(200px + 100%) 0;
-  }
-}
-
-.loading-shimmer {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
-  animation: shimmer 1.5s infinite;
+  background-color: #323F4B !important;
 }
 
 

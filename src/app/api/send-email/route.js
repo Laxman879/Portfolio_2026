@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { generateContactEmail } from "@/utils/email-template";
 
 export async function POST(request) {
   try {
-    const { name, email, message } = await request.json();
+    const { name, email, phone, message } = await request.json();
     
-    console.log('Email API called with:', { name, email: email?.substring(0, 5) + '...', messageLength: message?.length });
+    console.log('Email API called with:', { name, email: email?.substring(0, 5) + '...', phone, messageLength: message?.length });
     console.log('SMTP Config:', { 
       user: process.env.SMTP_USER ? 'Set' : 'Missing',
       pass: process.env.SMTP_PASS ? 'Set' : 'Missing',
@@ -31,13 +32,7 @@ export async function POST(request) {
       to: 'annaboinalaxman6@gmail.com',
       replyTo: email,
       subject: `Portfolio Contact: ${name}`,
-      html: `
-        <h3>New Contact Form Submission</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `
+      html: generateContactEmail({ name, email, phone, message }),
     };
 
     console.log('Attempting to send email...');
@@ -55,9 +50,15 @@ export async function POST(request) {
       code: error.code,
       command: error.command
     });
+
+    let errorMessage = `Email failed: ${error.message}`;
+    if (error.code === 'EAUTH') {
+      errorMessage = 'Authentication failed. Please check your Gmail App Password in .env.local.';
+    }
+
     return NextResponse.json({
       success: false,
-      message: `Email failed: ${error.message}`
+      message: errorMessage
     }, { status: 500 });
   }
 }

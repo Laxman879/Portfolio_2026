@@ -21,6 +21,12 @@ const controls = [
     label: "Email Address",
   },
   {
+    name: "phone",
+    placeholder: "Your phone number",
+    type: "tel",
+    label: "Phone Number",
+  },
+  {
     name: "message",
     placeholder: "Tell me about your project or just say hello...",
     type: "textarea",
@@ -52,6 +58,7 @@ const contactInfo = [
 const initialFormData = {
   name: "",
   email: "",
+  phone: "",
   message: "",
 };
 
@@ -72,6 +79,10 @@ export default function ClientContactView() {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email is invalid";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
     }
     
     if (!formData.message.trim()) {
@@ -104,14 +115,14 @@ export default function ClientContactView() {
       if (emailRes.ok && emailResult.success) {
         setFormData(initialFormData);
         setErrors({});
-        toast.success('Message sent successfully!');
+        toast.success('Contact form submitted successfully');
       } else if (dbRes && dbRes.success) {
         setFormData(initialFormData);
         setErrors({});
         toast.success('Message saved! Email delivery may have failed.');
-        console.error('Email failed but DB saved:', emailResult);
+        console.error('Email failed but DB saved:', emailResult.message);
       } else {
-        console.error('Both email and DB failed:', { emailResult, dbRes });
+        console.error('Both email and DB failed:', { emailResult: emailResult.message, dbRes });
         toast.error(emailResult.message || 'Failed to send message. Please try again.');
       }
     } catch (error) {
@@ -132,11 +143,11 @@ export default function ClientContactView() {
   }, [showSuccessMessage]);
 
   const isValidForm = () => {
-    return formData.name.trim() && formData.email.trim() && formData.message.trim();
+    return formData.name.trim() && formData.email.trim() && formData.phone.trim() && formData.message.trim();
   };
 
   return (
-    <section className="section-padding bg-secondary-900 text-white" id="contact">
+    <section className="section-padding" id="contact">
       <div className="container-custom">
         {/* Header */}
         <AnimationWrapper className="text-center mb-8 sm:mb-12 lg:mb-16">
@@ -178,7 +189,7 @@ export default function ClientContactView() {
                       href={info.href}
                       target={info.label === "Location" ? "_blank" : "_self"}
                       rel={info.label === "Location" ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-secondary-800 hover:bg-secondary-700 transition-all duration-300 group"
+                      className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-surface border border-white/5 hover:bg-white/5 transition-all duration-300 group"
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -204,7 +215,7 @@ export default function ClientContactView() {
           {/* Contact Form */}
           <AnimationWrapper>
             <motion.div
-              className="card bg-secondary-800 border-secondary-700 p-4 sm:p-6 lg:p-8 mt-6 lg:mt-0"
+              className="card bg-surface border-white/10 p-4 sm:p-6 lg:p-8 mt-6 lg:mt-0"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
@@ -237,8 +248,8 @@ export default function ClientContactView() {
                         }}
                         placeholder={control.placeholder}
                         rows={4}
-                        className={`w-full px-3 py-2 lg:px-4 lg:py-3 bg-white border rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none text-sm lg:text-base ${
-                          errors[control.name] ? "border-red-500" : "border-gray-300"
+                        className={`w-full px-3 py-2 lg:px-4 lg:py-3 bg-secondary-900/50 border rounded-xl text-secondary-100 placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none text-sm lg:text-base ${
+                          errors[control.name] ? "border-red-500" : "border-gray-700"
                         }`}
                       />
                     ) : (
@@ -256,8 +267,8 @@ export default function ClientContactView() {
                           }
                         }}
                         placeholder={control.placeholder}
-                        className={`w-full px-3 py-2 lg:px-4 lg:py-3 bg-white border rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm lg:text-base ${
-                          errors[control.name] ? "border-red-500" : "border-gray-300"
+                        className={`w-full px-3 py-2 lg:px-4 lg:py-3 bg-secondary-900/50 border rounded-xl text-secondary-100 placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm lg:text-base ${
+                          errors[control.name] ? "border-red-500" : "border-gray-700"
                         }`}
                       />
                     )}

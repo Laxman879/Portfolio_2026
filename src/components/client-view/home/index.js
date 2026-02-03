@@ -68,8 +68,8 @@ export default function ClientHomeView({ data }) {
   const renderHeading = () => {
     if (!data || !data.length) {
       return (
-        <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight">
-          <span className="text-secondary-900">Hello, I'm a </span>
+      <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight">
+          <span className="text-secondary-100">Hello, I'm a </span>
           <span className="text-gradient">Full Stack Developer</span>
         </h1>
       );
@@ -80,7 +80,7 @@ export default function ClientHomeView({ data }) {
         {data[0]?.heading.split(' ').map((word, index) => (
           <motion.span
             key={index}
-            className={`${index === 2 || index === 3 ? 'text-gradient' : 'text-secondary-900'}`}
+            className={`${index === 2 || index === 3 ? 'text-gradient' : 'text-secondary-100'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
@@ -102,7 +102,7 @@ export default function ClientHomeView({ data }) {
               {renderHeading()}
 
               <motion.p
-                className="text-xl text-secondary-600 leading-relaxed max-w-lg"
+                className="text-xl text-secondary-400 leading-relaxed max-w-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
@@ -160,7 +160,7 @@ export default function ClientHomeView({ data }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.label}
-                      className="w-12 h-12 bg-secondary-100 hover:bg-primary-500 text-secondary-600 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300 hover:shadow-green-glow"
+                      className="w-12 h-12 bg-surface text-secondary-300 hover:bg-primary-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300 hover:shadow-glow"
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{
@@ -204,7 +204,7 @@ export default function ClientHomeView({ data }) {
 
                 {/* Main Image Container */}
                 <motion.div
-                  className="relative w-full h-full bg-white rounded-2xl sm:rounded-3xl lg:rounded-4xl shadow-strong overflow-hidden border-2 sm:border-4 border-white"
+                  className="relative w-full h-full bg-surface rounded-2xl sm:rounded-3xl lg:rounded-4xl shadow-strong overflow-hidden border-2 sm:border-4 border-surface"
                   whileHover={{
                     scale: 1.05,
                     rotate: 2,

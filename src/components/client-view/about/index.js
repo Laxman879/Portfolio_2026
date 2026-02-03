@@ -39,21 +39,21 @@ export default function ClientAboutView({ data }) {
       value: data?.noofclients || "50",
       icon: HiUsers,
       color: "text-blue-500",
-      bgColor: "bg-blue-50",
+      bgColor: "bg-blue-500/10",
     },
     {
       label: "Projects Done",
       value: data?.noofprojects || "100",
       icon: HiBriefcase,
       color: "text-purple-500",
-      bgColor: "bg-purple-50",
+      bgColor: "bg-purple-500/10",
     },
     {
       label: "Years Experience",
       value: data?.yearofexperience || "5",
       icon: HiClock,
       color: "text-primary-500",
-      bgColor: "bg-primary-50",
+      bgColor: "bg-primary-500/10",
     },
   ];
 
@@ -65,7 +65,7 @@ export default function ClientAboutView({ data }) {
   const skills = data?.skills ? data.skills.split(",").map(s => s.trim()) : defaultSkills;
 
   return (
-    <section className="section-padding bg-secondary-50/50" id="about">
+    <section className="section-padding" id="about">
       <div className="container-custom">
         {/* Stats Section */}
         <AnimationWrapper stagger className="mb-12 sm:mb-16 lg:mb-20">
@@ -82,14 +82,14 @@ export default function ClientAboutView({ data }) {
                     <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8" />
                   </div>
                   <motion.h3 
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary-900 mb-1 sm:mb-2"
+                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary-100 mb-1 sm:mb-2"
                     initial={{ scale: 1 }}
                     whileInView={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     {stat.value}+
                   </motion.h3>
-                  <p className="text-sm sm:text-base text-secondary-600 font-medium">{stat.label}</p>
+                  <p className="text-sm sm:text-base text-secondary-300 font-medium">{stat.label}</p>
                 </motion.div>
               );
             })}
@@ -106,14 +106,14 @@ export default function ClientAboutView({ data }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-secondary-900 leading-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-secondary-100 leading-tight">
                   Why Hire Me For Your{" "}
                   <span className="text-gradient">Next Project?</span>
                 </h2>
               </motion.div>
               
               <motion.p 
-                className="text-sm sm:text-base lg:text-lg text-secondary-600 leading-relaxed"
+                className="text-sm sm:text-base lg:text-lg text-secondary-300 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -142,7 +142,7 @@ export default function ClientAboutView({ data }) {
                     transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                   >
                     <HiCheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-primary-500 flex-shrink-0" />
-                    <span className="text-sm sm:text-base text-secondary-700 font-medium">{item}</span>
+                    <span className="text-sm sm:text-base text-secondary-300 font-medium">{item}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -189,32 +189,74 @@ export default function ClientAboutView({ data }) {
         </div>
 
         {/* Skills Section */}
-        <AnimationWrapper className="mt-12 sm:mt-16 lg:mt-20" stagger>
-          <div className="text-center mb-8 sm:mb-10 lg:mb-12">
-            <h3 className="text-2xl sm:text-3xl font-bold text-secondary-900 mb-3 sm:mb-4 px-4 sm:px-0">
+        <AnimationWrapper className="mt-12 sm:mt-16 lg:mt-20">
+          <div className="text-center mb-12 sm:mb-16">
+            <h3 className="text-2xl sm:text-3xl font-bold text-secondary-100 mb-3 sm:mb-4 px-4 sm:px-0">
               Technologies I <span className="text-gradient">Work With</span>
             </h3>
-            <p className="text-sm sm:text-base text-secondary-600 max-w-2xl mx-auto px-4 sm:px-0">
+            <p className="text-sm sm:text-base text-secondary-300 max-w-2xl mx-auto px-4 sm:px-0">
               I stay up-to-date with the latest technologies and best practices to deliver cutting-edge solutions.
             </p>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-            {skills.map((skill, index) => (
-              <motion.div
-                key={skill}
-                variants={skillVariants}
-                className="group"
-              >
-                <div className="card p-3 sm:p-4 text-center hover:shadow-green-glow hover:border-primary-200 transition-all duration-300 group-hover:scale-105">
-                  <span className="font-semibold text-xs sm:text-sm lg:text-base text-secondary-700 group-hover:text-primary-600 transition-colors break-words">
-                    {skill}
-                  </span>
+          <div className="relative w-full overflow-hidden mask-gradient-x space-y-6">
+            {/* Gradient Masks */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10"></div>
+
+            {/* Row 1 - Scroll Left */}
+            <div className="flex gap-6 animate-scroll-left hover:pause-animation">
+              {[...skills.slice(0, Math.ceil(skills.length / 2)), ...skills.slice(0, Math.ceil(skills.length / 2)), ...skills.slice(0, Math.ceil(skills.length / 2))].map((skill, index) => (
+                <div
+                  key={`row1-${skill}-${index}`}
+                  className="flex-shrink-0 group"
+                >
+                  <div className="card px-8 py-4 text-center hover:shadow-glow hover:border-primary-500/50 transition-all duration-300 group-hover:scale-105 min-w-[140px] flex items-center justify-center bg-surface/50 backdrop-blur-sm">
+                    <span className="font-semibold text-sm sm:text-base text-secondary-300 group-hover:text-primary-400 transition-colors whitespace-nowrap">
+                      {skill}
+                    </span>
+                  </div>
                 </div>
-              </motion.div>
-            ))}
+              ))}
+            </div>
+
+            {/* Row 2 - Scroll Right */}
+            <div className="flex gap-6 animate-scroll-right hover:pause-animation">
+              {[...skills.slice(Math.ceil(skills.length / 2)), ...skills.slice(Math.ceil(skills.length / 2)), ...skills.slice(Math.ceil(skills.length / 2))].map((skill, index) => (
+                <div
+                  key={`row2-${skill}-${index}`}
+                  className="flex-shrink-0 group"
+                >
+                  <div className="card px-8 py-4 text-center hover:shadow-glow hover:border-primary-500/50 transition-all duration-300 group-hover:scale-105 min-w-[140px] flex items-center justify-center bg-surface/50 backdrop-blur-sm">
+                    <span className="font-semibold text-sm sm:text-base text-secondary-300 group-hover:text-primary-400 transition-colors whitespace-nowrap">
+                      {skill}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </AnimationWrapper>
+        
+        <style jsx global>{`
+          @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.33%); }
+          }
+          @keyframes scroll-right {
+            0% { transform: translateX(-33.33%); }
+            100% { transform: translateX(0); }
+          }
+          .animate-scroll-left {
+            animation: scroll-left 40s linear infinite;
+          }
+          .animate-scroll-right {
+            animation: scroll-right 40s linear infinite;
+          }
+          .hover\:pause-animation:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
       </div>
     </section>
   );
