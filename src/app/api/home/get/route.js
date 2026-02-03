@@ -2,8 +2,6 @@ import connectToDB from "@/database";
 import Home from "@/models/Home";
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
-
 export async function GET(req) {
   try {
     console.log('API Route: Attempting to connect to database...');

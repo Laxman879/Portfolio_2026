@@ -2,8 +2,6 @@ import connectToDB from "@/database";
 import About from "@/models/About";
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
-
 export async function PUT(req) {
   try {
     await connectToDB();
