@@ -14,6 +14,10 @@ import toast, { Toaster } from 'react-hot-toast';
 const initialHomeFormData = {
   heading: '',
   summary: '',
+  githubUrl: '',
+  linkedinUrl: '',
+  twitterUrl: '',
+  instagramUrl: '',
 };
 
 const initialAboutFormData = {
@@ -22,6 +26,8 @@ const initialAboutFormData = {
   yearofexperience: '',
   noofclients: '',
   skills: '',
+  highlights: '',
+  skillsDescription: '',
 };
 
 const initialExperienceFormData = {
