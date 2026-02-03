@@ -1,4 +1,5 @@
 import CommonLayout from '@/components/client-view/common-layout'
+import Analytics from '@/components/analytics'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${inter.className} antialiased`}>
         <CommonLayout>{children}</CommonLayout>
+        <Analytics />
       </body>
     </html>
   )
