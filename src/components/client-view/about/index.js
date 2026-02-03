@@ -36,33 +36,28 @@ export default function ClientAboutView({ data }) {
   const aboutDataInfo = [
     {
       label: "Happy Clients",
-      value: data?.noofclients || "50",
+      value: data?.noofclients || "0",
       icon: HiUsers,
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
     },
     {
       label: "Projects Done",
-      value: data?.noofprojects || "100",
+      value: data?.noofprojects || "0",
       icon: HiBriefcase,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10",
     },
     {
       label: "Years Experience",
-      value: data?.yearofexperience || "5",
+      value: data?.yearofexperience || "0",
       icon: HiClock,
       color: "text-primary-500",
       bgColor: "bg-primary-500/10",
     },
   ];
 
-  const defaultSkills = [
-    "React", "Next.js", "Node.js", "TypeScript", "MongoDB", "PostgreSQL",
-    "AWS", "Docker", "GraphQL", "Tailwind CSS", "Python", "Express.js"
-  ];
-
-  const skills = data?.skills ? data.skills.split(",").map(s => s.trim()) : defaultSkills;
+  const skills = data?.skills ? data.skills.split(",").map(s => s.trim()) : [];
 
   return (
     <section className="section-padding" id="about">
@@ -118,8 +113,7 @@ export default function ClientAboutView({ data }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                {data?.aboutme || 
-                  "I'm a passionate full-stack developer with expertise in modern web technologies. I love creating efficient, scalable, and user-friendly applications that solve real-world problems. My goal is to deliver high-quality solutions that exceed expectations."}
+                {data?.aboutme || "Please update your about information from the admin panel."}
               </motion.p>
 
               <motion.div
@@ -128,12 +122,7 @@ export default function ClientAboutView({ data }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                {[
-                  "Clean, maintainable code",
-                  "Responsive design principles",
-                  "Performance optimization",
-                  "Modern development practices"
-                ].map((item, index) => (
+                {data?.highlights ? data.highlights.split(',').map((item, index) => (
                   <motion.div
                     key={index}
                     className="flex items-center gap-2 sm:gap-3"
@@ -142,9 +131,11 @@ export default function ClientAboutView({ data }) {
                     transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                   >
                     <HiCheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-primary-500 flex-shrink-0" />
-                    <span className="text-sm sm:text-base text-secondary-300 font-medium">{item}</span>
+                    <span className="text-sm sm:text-base text-secondary-300 font-medium">{item.trim()}</span>
                   </motion.div>
-                ))}
+                )) : (
+                  <p className="text-sm text-secondary-400">Please add highlights from admin panel</p>
+                )}
               </motion.div>
             </div>
           </AnimationWrapper>
@@ -182,7 +173,7 @@ export default function ClientAboutView({ data }) {
                   ease: "easeInOut"
                 }}
               >
-                <span className="text-white font-bold text-lg">5+</span>
+                <span className="text-white font-bold text-lg">{data?.yearofexperience || "0"}+</span>
               </motion.div>
             </motion.div>
           </AnimationWrapper>
@@ -195,7 +186,7 @@ export default function ClientAboutView({ data }) {
               Technologies I <span className="text-gradient">Work With</span>
             </h3>
             <p className="text-sm sm:text-base text-secondary-300 max-w-2xl mx-auto px-4 sm:px-0">
-              I stay up-to-date with the latest technologies and best practices to deliver cutting-edge solutions.
+              {data?.skillsDescription || "Please add skills description from admin panel."}
             </p>
           </div>
           

@@ -59,7 +59,7 @@ const ProjectCard = ({ project, index }) => {
 
           {/* Project Description */}
           <p className="text-secondary-300 mb-4 sm:mb-6 text-sm sm:text-base line-clamp-2 sm:line-clamp-3">
-            {project?.description || "A modern web application built with cutting-edge technologies and best practices."}
+            {project?.description || "Project description not available."}
           </p>
         </div>
 
@@ -146,35 +146,7 @@ export default function ClientProjectView({ data }) {
   const containerRef = useRef(null);
   const { scrollXProgress } = useScroll({ container: containerRef });
 
-  // Default projects if no data
-  const defaultProjects = [
-    {
-      name: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with modern UI/UX",
-      technologies: "React, Node.js, MongoDB, Stripe",
-      website: "#",
-      github: "#",
-      createdAt: new Date().toISOString()
-    },
-    {
-      name: "Task Management App",
-      description: "Collaborative task management with real-time updates",
-      technologies: "Next.js, TypeScript, PostgreSQL, Socket.io",
-      website: "#",
-      github: "#",
-      createdAt: new Date().toISOString()
-    },
-    {
-      name: "Weather Dashboard",
-      description: "Beautiful weather app with location-based forecasts",
-      technologies: "React, API Integration, Chart.js, Tailwind",
-      website: "#",
-      github: "#",
-      createdAt: new Date().toISOString()
-    }
-  ];
-
-  const projects = data && data.length ? data : defaultProjects;
+  const projects = data && data.length ? data : [];
 
   return (
     <section className="section-padding" id="project">
@@ -190,7 +162,7 @@ export default function ClientProjectView({ data }) {
               My <span className="text-gradient">Projects</span>
             </h2>
             <p className="text-xl text-secondary-300 max-w-2xl mx-auto">
-              Here are some of my recent projects that showcase my skills and experience in web development.
+              Recent projects showcasing skills and experience.
             </p>
           </motion.div>
 
@@ -238,9 +210,17 @@ export default function ClientProjectView({ data }) {
         {/* Projects Grid */}
         <AnimationWrapper stagger>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {projects.map((project, index) => (
+            {projects.length > 0 ? projects.map((project, index) => (
               <ProjectCard key={index} project={project} index={index} />
-            ))}
+            )) : (
+              <div className="col-span-full">
+                <div className="card p-8 text-center">
+                  <HiCode className="w-16 h-16 text-secondary-400 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-secondary-300 mb-2">No Projects Yet</h3>
+                  <p className="text-secondary-400">Projects will appear here once added from the admin panel.</p>
+                </div>
+              </div>
+            )}
           </div>
         </AnimationWrapper>
       </div>

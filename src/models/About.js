@@ -7,6 +7,8 @@ const AboutSchema = new mongoose.Schema(
     yearofexperience: String,
     noofclients: String,
     skills: String,
+    highlights: String,
+    skillsDescription: String,
   },
   { timestamps: true }
 );

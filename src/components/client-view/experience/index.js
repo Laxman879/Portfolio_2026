@@ -91,39 +91,8 @@ export default function ClientExperienceAndEducationView({
   educationData,
   experienceData,
 }) {
-  // Default data if none provided
-  const defaultExperience = [
-    {
-      duration: "2022 - Present",
-      company: "Tech Solutions Inc",
-      location: "San Francisco, CA",
-      position: "Senior Full Stack Developer",
-      jobprofile: "Led development of scalable web applications using React, Node.js, and cloud technologies. Mentored junior developers and implemented best practices."
-    },
-    {
-      duration: "2020 - 2022",
-      company: "Digital Agency",
-      location: "New York, NY",
-      position: "Frontend Developer",
-      jobprofile: "Developed responsive web applications and collaborated with design teams to create exceptional user experiences."
-    }
-  ];
-
-  const defaultEducation = [
-    {
-      year: "2016 - 2020",
-      college: "University of Technology",
-      degree: "Bachelor of Science in Computer Science"
-    },
-    {
-      year: "2018",
-      college: "Online Certification",
-      degree: "Full Stack Web Development"
-    }
-  ];
-
-  const experience = experienceData && experienceData.length ? experienceData : defaultExperience;
-  const education = educationData && educationData.length ? educationData : defaultEducation;
+  const experience = experienceData && experienceData.length ? experienceData : [];
+  const education = educationData && educationData.length ? educationData : [];
 
   return (
     <section className="section-padding" id="experience">
@@ -139,7 +108,7 @@ export default function ClientExperienceAndEducationView({
               My <span className="text-gradient">Journey</span>
             </h2>
             <p className="text-xl text-secondary-300 max-w-2xl mx-auto">
-              A timeline of my professional experience and educational background that shaped my career in web development.
+              Professional experience and educational background.
             </p>
           </motion.div>
         </AnimationWrapper>
@@ -167,9 +136,13 @@ export default function ClientExperienceAndEducationView({
 
             <AnimationWrapper stagger>
               <div className="space-y-4 sm:space-y-6">
-                {experience.map((item, index) => (
+                {experience.length > 0 ? experience.map((item, index) => (
                   <ExperienceCard key={index} item={item} index={index} />
-                ))}
+                )) : (
+                  <div className="card p-6 text-center">
+                    <p className="text-secondary-400">No experience data available. Please add from admin panel.</p>
+                  </div>
+                )}
               </div>
             </AnimationWrapper>
           </div>
@@ -196,9 +169,13 @@ export default function ClientExperienceAndEducationView({
 
             <AnimationWrapper stagger>
               <div className="space-y-4 sm:space-y-6">
-                {education.map((item, index) => (
+                {education.length > 0 ? education.map((item, index) => (
                   <EducationCard key={index} item={item} index={index} />
-                ))}
+                )) : (
+                  <div className="card p-6 text-center">
+                    <p className="text-secondary-400">No education data available. Please add from admin panel.</p>
+                  </div>
+                )}
               </div>
             </AnimationWrapper>
           </div>

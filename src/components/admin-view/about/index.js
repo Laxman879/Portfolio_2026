@@ -12,19 +12,19 @@ const controls = [
   },
   {
     name: "noofprojects",
-    placeholder: "e.g., 50+",
+    placeholder: "e.g., 50",
     type: "text",
     label: "Number of Projects",
   },
   {
     name: "yearofexperience",
-    placeholder: "e.g., 5+",
+    placeholder: "e.g., 5",
     type: "text",
     label: "Years of Experience",
   },
   {
     name: "noofclients",
-    placeholder: "e.g., 100+",
+    placeholder: "e.g., 100",
     type: "text",
     label: "Number of Clients",
   },
@@ -33,6 +33,18 @@ const controls = [
     placeholder: "React, Node.js, MongoDB, etc.",
     type: "textarea",
     label: "Skills (comma separated)",
+  },
+  {
+    name: "highlights",
+    placeholder: "Clean maintainable code, Responsive design, Performance optimization, etc.",
+    type: "textarea",
+    label: "Key Highlights (comma separated)",
+  },
+  {
+    name: "skillsDescription",
+    placeholder: "Description about your skills and technologies",
+    type: "textarea",
+    label: "Skills Description",
   },
 ];
 
