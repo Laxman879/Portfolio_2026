@@ -7,6 +7,8 @@ import AdminExperienceView from '@/components/admin-view/experience';
 import AdminHomeView from '@/components/admin-view/home';
 import Login from '@/components/admin-view/login';
 import AdminProjectView from '@/components/admin-view/project';
+import AdminCategoryView from '@/components/admin-view/category';
+import AdminTechnologyView from '@/components/admin-view/technology';
 import { addData, getData, login, updateData } from '@/services';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -46,9 +48,12 @@ const initialEducationFormData = {
 
 const initialProjectFormData = {
   name: '',
+  description: '',
   website: '',
-  technologies: '',
+  technologies: [],
   github: '',
+  category: '',
+  image: '',
 };
 
 const initialLoginFormData = {
@@ -117,6 +122,26 @@ export default function AdminView() {
       ),
     },
     {
+      id: 'category',
+      label: 'Categories',
+      component: (
+        <AdminCategoryView
+          categories={allData?.category}
+          onRefresh={extractAllDatas}
+        />
+      ),
+    },
+    {
+      id: 'technology',
+      label: 'Technologies',
+      component: (
+        <AdminTechnologyView
+          technologies={allData?.technology}
+          onRefresh={extractAllDatas}
+        />
+      ),
+    },
+    {
       id: 'project',
       label: 'Project',
       component: (
@@ -125,6 +150,8 @@ export default function AdminView() {
           handleSaveData={handleSaveData}
           setFormData={setProjectViewFormData}
           data={allData?.project}
+          categories={allData?.category}
+          technologies={allData?.technology}
           onRefresh={extractAllDatas}
         />
       ),
@@ -168,20 +195,21 @@ export default function AdminView() {
       project: projectViewFormData,
     };
 
-    const response = update || (dataMap[currentTab]._id)
+    const response = update || (dataMap[currentTab]?._id)
       ? await updateData(currentTab, dataMap[currentTab])
       : await addData(currentTab, dataMap[currentTab]);
-    console.log(response, 'response');
 
     if (response.success) {
-      toast.success((update || dataMap[currentTab]._id) ? 'Updated successfully!' : 'Added successfully!');
+      toast.success((update || dataMap[currentTab]?._id) ? 'Updated successfully!' : 'Added successfully!');
       resetFormDatas();
-      extractAllDatas();
+      await extractAllDatas();
       
-      // Revalidate frontend
       fetch('/api/revalidate', { method: 'POST' });
+      
+      return response;
     } else {
       toast.error(response.message || 'Something went wrong!');
+      return response;
     }
   }
 
@@ -197,7 +225,7 @@ export default function AdminView() {
     setProjectViewFormData(initialProjectFormData);
   }
 
-  console.log(allData, homeViewFormData, 'homeViewFormData');
+  console.log(allData, 'allData');
 
   useEffect(() => {
     setAuthUser(JSON.parse(sessionStorage.getItem('authUser')));

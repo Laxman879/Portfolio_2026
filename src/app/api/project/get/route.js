@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   try {
     await connectToDB();
-    const extractData = await Project.find({});
+    const extractData = await Project.find({}).populate("technologies");
 
     if (extractData) {
       return NextResponse.json({

@@ -54,6 +54,10 @@ export default function Login({ formData, setFormData, handleLogin, createUser }
           >
             <h1 className="text-3xl font-bold text-white mb-2">Admin Portal</h1>
             <p className="text-gray-300">Sign in to manage your portfolio</p>
+            <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg">
+              <p className="text-sm text-green-300">Username: <span className="font-semibold">admin</span></p>
+              <p className="text-sm text-green-300">Password: <span className="font-semibold">admin1234</span></p>
+            </div>
           </motion.div>
 
           <div className="space-y-6">

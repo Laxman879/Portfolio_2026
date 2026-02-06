@@ -5,11 +5,28 @@ import { NextResponse } from "next/server";
 export async function PUT(req) {
   try {
     await connectToDB();
-    const { _id, name, technologies, website, github } = await req.json();
+    const extractData = await req.json();
+    const { _id } = extractData;
+
+    // Parse technologies if it's a string
+    let technologies = extractData.technologies;
+    if (typeof technologies === 'string') {
+      try {
+        technologies = JSON.parse(technologies);
+      } catch (e) {
+        technologies = [];
+      }
+    }
+
+    const updateData = {
+      ...extractData,
+      technologies
+    };
+    delete updateData._id;
 
     const updatedProject = await Project.findByIdAndUpdate(
       _id,
-      { name, technologies, website, github },
+      updateData,
       { new: true }
     );
 

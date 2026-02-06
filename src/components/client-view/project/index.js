@@ -1,128 +1,73 @@
 "use client";
 
-import { useRef, useState } from "react";
-import AnimationWrapper, { staggerVariants } from "../animation-wrapper";
-import { motion, useScroll } from "framer-motion";
-import { HiExternalLink, HiCode, HiCalendar, HiEye, HiGlobe } from "react-icons/hi";
+import { useRef, useState, useEffect } from "react";
+import AnimationWrapper from "../animation-wrapper";
+import { motion } from "framer-motion";
+import { HiExternalLink, HiCode, HiGlobe, HiChevronDown } from "react-icons/hi";
 import { FaGithub } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-
-const projectVariants = {
-  offscreen: { y: 50, opacity: 0, scale: 0.9 },
-  onscreen: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    transition: {
-      type: "spring",
-      bounce: 0.4,
-      duration: 0.8,
-    },
-  },
-};
+import Image from "next/image";
+import TechnologyChip from "@/components/ui/TechnologyChip";
 
 const ProjectCard = ({ project, index }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const router = useRouter();
-
-  const technologies = project?.technologies ? project.technologies.split(",").map(t => t.trim()) : [];
-  const date = project?.createdAt ? new Date(project.createdAt).toLocaleDateString() : "Recent";
 
   return (
     <motion.div
-      variants={projectVariants}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
       className="group"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
       <div className="card h-full overflow-hidden hover:shadow-strong transition-all duration-500 hover:-translate-y-2">
-        {/* Project Header */}
-        <div className="p-4 sm:p-6 pb-3 sm:pb-4">
-          <div className="flex items-start justify-between mb-3 sm:mb-4">
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-secondary-100 mb-2 group-hover:text-primary-600 transition-colors truncate">
-                {project?.name || `Project ${index + 1}`}
-              </h3>
-              <div className="flex items-center gap-2 text-secondary-500 text-xs sm:text-sm">
-                <HiCalendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span>{date}</span>
-              </div>
-            </div>
+        {/* Project Image */}
+        {project?.image && (
+          <div className="relative w-full h-48 overflow-hidden">
+            <Image src={project.image} alt={project.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+          </div>
+        )}
+
+        {/* Project Content */}
+        <div className="p-4 sm:p-6">
+          <div className="flex items-start justify-between mb-3">
+            <h3 className="text-lg sm:text-xl font-bold text-secondary-100 group-hover:text-primary-600 transition-colors">
+              {project?.name || `Project ${index + 1}`}
+            </h3>
             <motion.div
-              className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-500/10 rounded-xl flex items-center justify-center group-hover:bg-primary-500 transition-colors flex-shrink-0 ml-2"
+              className="w-10 h-10 bg-primary-500/10 rounded-xl flex items-center justify-center group-hover:bg-primary-500 transition-colors flex-shrink-0 ml-2"
               animate={{ rotate: isHovered ? 360 : 0 }}
               transition={{ duration: 0.5 }}
             >
-              <HiCode className="w-5 h-5 sm:w-6 sm:h-6 text-primary-500 group-hover:text-white transition-colors" />
+              <HiCode className="w-5 h-5 text-primary-500 group-hover:text-white transition-colors" />
             </motion.div>
           </div>
 
           {/* Project Description */}
-          <p className="text-secondary-300 mb-4 sm:mb-6 text-sm sm:text-base line-clamp-2 sm:line-clamp-3">
-            {project?.description || "Project description not available."}
-          </p>
-        </div>
+          {project?.description && (
+            <p className="text-secondary-300 mb-4 text-sm sm:text-base line-clamp-2">
+              {project.description}
+            </p>
+          )}
 
-        {/* Technologies */}
-        <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-            {technologies.slice(0, 3).map((tech, techIndex) => (
-              <motion.span
-                key={techIndex}
-                className="px-2 py-1 sm:px-3 bg-background border border-white/5 text-secondary-300 rounded-full text-xs sm:text-sm font-medium hover:bg-primary-500/20 hover:text-primary-400 transition-colors"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: techIndex * 0.1 }}
-              >
-                {tech}
-              </motion.span>
+          {/* Technologies */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {Array.isArray(project?.technologies) && project.technologies.map((tech, idx) => (
+              <TechnologyChip key={idx} technology={tech} />
             ))}
-            {technologies.length > 3 && (
-              <span className="px-2 py-1 sm:px-3 bg-secondary-800 text-secondary-400 rounded-full text-xs sm:text-sm font-medium">
-                +{technologies.length - 3}
-              </span>
-            )}
           </div>
 
           {/* Action Links */}
           <div className="flex gap-3">
             {project?.website && (
-              <a 
-                href={project.website} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 transition-colors"
-                onClick={() => {
-                  if (window.dataLayer) {
-                    window.dataLayer.push({
-                      event: "project_view",
-                      project_name: project?.name || `Project ${index + 1}`,
-                      action: "live_demo"
-                    });
-                  }
-                }}
-              >
+              <a href={project.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 transition-colors">
                 <HiGlobe className="w-4 h-4" />
                 Live Demo
                 <HiExternalLink className="w-3 h-3" />
               </a>
             )}
             {project?.github && (
-              <a 
-                href={project.github} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-sm text-secondary-400 hover:text-white transition-colors"
-                onClick={() => {
-                  if (window.dataLayer) {
-                    window.dataLayer.push({
-                      event: "project_view",
-                      project_name: project?.name || `Project ${index + 1}`,
-                      action: "view_code"
-                    });
-                  }
-                }}
-              >
+              <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-secondary-400 hover:text-white transition-colors">
                 <FaGithub className="w-4 h-4" />
                 Code
                 <HiExternalLink className="w-3 h-3" />
@@ -143,76 +88,78 @@ const ProjectCard = ({ project, index }) => {
 };
 
 export default function ClientProjectView({ data }) {
-  const containerRef = useRef(null);
-  const { scrollXProgress } = useScroll({ container: containerRef });
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [mainCategories, setMainCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
+  const [showAllCategories, setShowAllCategories] = useState(false);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const mainRes = await fetch("/api/category/get?type=main");
+        const mainResult = await mainRes.json();
+        if (mainResult.success) {
+          setMainCategories([{ name: "all", label: "All" }, ...mainResult.data]);
+        }
+
+        const allRes = await fetch("/api/category/get");
+        const allResult = await allRes.json();
+        if (allResult.success) {
+          setAllCategories([{ name: "all", label: "All" }, ...allResult.data]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories");
+      }
+    }
+    fetchCategories();
+  }, []);
 
   const projects = data && data.length ? data : [];
+  const filteredProjects = selectedCategory === "all" ? projects : projects.filter((p) => p.category === selectedCategory);
+
+  const displayCategories = showAllCategories ? allCategories : mainCategories;
+  const hasMoreCategories = allCategories.length > mainCategories.length;
 
   return (
     <section className="section-padding" id="project">
       <div className="container-custom">
         {/* Header */}
         <AnimationWrapper className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h2 className="text-4xl lg:text-5xl font-bold text-secondary-100 mb-4">
               My <span className="text-gradient">Projects</span>
             </h2>
-            <p className="text-xl text-secondary-300 max-w-2xl mx-auto">
-              Recent projects showcasing skills and experience.
-            </p>
-          </motion.div>
-
-          {/* Progress Indicator */}
-          <motion.div
-            className="mt-8 flex justify-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div className="relative w-20 h-20">
-              <svg className="w-20 h-20 transform -rotate-90" viewBox="0 0 100 100">
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="8"
-                  fill="none"
-                  className="text-secondary-200"
-                />
-                <motion.circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="8"
-                  fill="none"
-                  strokeLinecap="round"
-                  className="text-primary-500"
-                  style={{
-                    pathLength: scrollXProgress,
-                    strokeDasharray: "251.2",
-                    strokeDashoffset: "251.2"
-                  }}
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <HiEye className="w-6 h-6 text-primary-500" />
-              </div>
-            </div>
+            <p className="text-xl text-secondary-300 max-w-2xl mx-auto">Recent projects showcasing skills and experience.</p>
           </motion.div>
         </AnimationWrapper>
+
+        {/* Category Tabs */}
+        <div className="mb-12">
+          <div className="flex justify-center gap-3 mb-4 flex-wrap">
+            {displayCategories.map((cat) => (
+              <button key={cat.name} onClick={() => setSelectedCategory(cat.name)} className={`px-6 py-2 rounded-full font-medium transition-all ${selectedCategory === cat.name ? "bg-primary-500 text-white shadow-lg" : "bg-secondary-800 text-secondary-300 hover:bg-secondary-700"}`}>
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Load More Categories Button */}
+          {hasMoreCategories && !showAllCategories && (
+            <div className="flex justify-center">
+              <button onClick={() => setShowAllCategories(true)} className="flex items-center gap-2 px-4 py-2 bg-secondary-800 text-secondary-300 hover:bg-secondary-700 rounded-full transition-all">
+                <span>More Categories</span>
+                <HiChevronDown className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Projects Grid */}
         <AnimationWrapper stagger>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {projects.length > 0 ? projects.map((project, index) => (
-              <ProjectCard key={index} project={project} index={index} />
-            )) : (
+            {filteredProjects.length > 0 ? (
+              filteredProjects.map((project, index) => <ProjectCard key={index} project={project} index={index} />)
+            ) : (
               <div className="col-span-full">
                 <div className="card p-8 text-center">
                   <HiCode className="w-16 h-16 text-secondary-400 mx-auto mb-4" />
