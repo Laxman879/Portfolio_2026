@@ -8,13 +8,8 @@ export async function POST(req) {
     await connectToDB();
     const { username, password } = await req.json();
 
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
-      return NextResponse.json({
-        success: false,
-        message: "User already exists",
-      });
-    }
+    // Delete existing user with same username
+    await User.deleteMany({ username });
 
     const hashedPassword = await hash(password, 12);
     
