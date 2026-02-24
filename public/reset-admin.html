@@ -10,14 +10,14 @@
         fetch('/api/user/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: 'admin', password: 'admin123' })
+            body: JSON.stringify({ username: 'admin', password: 'admin1234' })
         })
         .then(r => r.json())
         .then(data => {
             document.getElementById('result').innerHTML = 
                 '<h3 style="color: green;">✓ Admin Created!</h3>' +
                 '<p>Username: <strong>admin</strong></p>' +
-                '<p>Password: <strong>admin123</strong></p>' +
+                '<p>Password: <strong>admin1234</strong></p>' +
                 '<a href="/admin">Go to Admin Panel</a>';
         })
         .catch(err => {
