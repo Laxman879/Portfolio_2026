@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   try {
     await connectToDB();
-    const { searchParams } = new URL(req.url);
-    const type = searchParams.get("type");
+    const url = new URL(req.url || '', 'http://localhost');
+    const type = url.searchParams.get("type");
 
     let categories;
     if (type === "main") {
@@ -30,3 +30,5 @@ export async function GET(req) {
     });
   }
 }
+
+export const dynamic = 'force-dynamic';

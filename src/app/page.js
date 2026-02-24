@@ -27,7 +27,6 @@ async function extractAllDatas(currentSection) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/${currentSection}/get`, {
       method: "GET",
       cache: "no-store",
-      next: { revalidate: 0 },
       headers: {
         'Content-Type': 'application/json',
       },
