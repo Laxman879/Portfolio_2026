@@ -165,6 +165,7 @@ export default function AdminView() {
 
   async function extractAllDatas() {
     const response = await getData(currentSelectedTab);
+    console.log(`Fetching ${currentSelectedTab}:`, response);
 
     if (currentSelectedTab === 'home' && response && response.data && response.data.length) {
       setHomeViewFormData(response && response.data[0]);
@@ -178,10 +179,14 @@ export default function AdminView() {
 
     // Update state with current tab data
     if (response?.success) {
-      setAllData(prev => ({
-        ...prev,
-        [currentSelectedTab]: response.data || [],
-      }));
+      setAllData(prev => {
+        const newData = {
+          ...prev,
+          [currentSelectedTab]: response.data || [],
+        };
+        console.log('Updated allData:', newData);
+        return newData;
+      });
     }
 
     // Always fetch categories and technologies for project tab
