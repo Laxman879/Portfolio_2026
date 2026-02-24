@@ -176,11 +176,27 @@ export default function AdminView() {
       setUpdate(true);
     }
 
+    // Update state with current tab data
     if (response?.success) {
-      setAllData({
-        ...allData,
-        [currentSelectedTab]: response && response.data,
-      });
+      setAllData(prev => ({
+        ...prev,
+        [currentSelectedTab]: response.data || [],
+      }));
+    }
+
+    // Always fetch categories and technologies for project tab
+    if (currentSelectedTab === 'project') {
+      const [catResponse, techResponse] = await Promise.all([
+        getData('category'),
+        getData('technology')
+      ]);
+      
+      setAllData(prev => ({
+        ...prev,
+        project: response?.data || [],
+        category: catResponse?.data || [],
+        technology: techResponse?.data || []
+      }));
     }
   }
 
