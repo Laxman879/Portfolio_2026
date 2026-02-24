@@ -68,23 +68,23 @@ export default function ClientHomeView({ data }) {
   const renderHeading = () => {
     if (!data || !data.length) {
       return (
-        <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight">
+        <h3 className="mb-6 text-4xl lg:text-5xl  font-bold leading-tight">
           <span className="text-secondary-100">Loading...</span>
-        </h1>
+        </h3>
       );
     }
 
     return (
-      <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight">
+      <h1 className="mb-6 text-4xl lg:text-5xl xl:text-7xl font-bold leading-tight lg:whitespace-nowrap">
         {data[0]?.heading.split(' ').map((word, index) => (
           <motion.span
             key={index}
-            className={`${index === 2 || index === 3 ? 'text-gradient' : 'text-secondary-100'}`}
+            className={`inline-block mr-2 ${index === 2 || index === 3 ? 'text-gradient' : 'text-secondary-100'}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            {word}{' '}
+            {word}
           </motion.span>
         ))}
       </h1>

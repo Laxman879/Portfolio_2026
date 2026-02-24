@@ -12,11 +12,10 @@ export async function GET(req) {
     if (type === "main") {
       const mainCategories = ["frontend", "backend", "fullstack", "css"];
       categories = await Category.find({ 
-        name: { $in: mainCategories },
-        isActive: true 
+        name: { $in: mainCategories }
       }).sort({ createdAt: 1 });
     } else {
-      categories = await Category.find({ isActive: true }).sort({ createdAt: 1 });
+      categories = await Category.find({}).sort({ createdAt: 1 });
     }
 
     return NextResponse.json({
@@ -24,6 +23,7 @@ export async function GET(req) {
       data: categories,
     });
   } catch (e) {
+    console.error('Category fetch error:', e);
     return NextResponse.json({
       success: false,
       message: "Failed to fetch categories",
