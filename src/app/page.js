@@ -23,11 +23,8 @@ const SectionSkeleton = () => (
 
 async function extractAllDatas(currentSection) {
   try {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL
-      : 'http://localhost:3000';
-      
-    const res = await fetch(`${baseUrl}/api/${currentSection}/get`, {
+    // Use relative URL for API calls (works in both dev and production)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/${currentSection}/get`, {
       method: "GET",
       cache: "no-store",
       headers: {
