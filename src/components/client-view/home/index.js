@@ -110,7 +110,29 @@ export default function ClientHomeView({ data }) {
                   ? data[0]?.summary
                   : 'Loading...'}
               </motion.p>
+    <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+  
+  <button style={{ padding: "10px 18px", border: "none", borderRadius: "8px", backgroundColor: "#4f46e5", color: "white", cursor: "pointer" }}>
+    Button 1
+  </button>
 
+  <button style={{ padding: "10px 18px", border: "none", borderRadius: "8px", backgroundColor: "#22c55e", color: "white", cursor: "pointer" }}>
+    Button 2
+  </button>
+
+  <button style={{ padding: "10px 18px", border: "none", borderRadius: "8px", backgroundColor: "#3b82f6", color: "white", cursor: "pointer" }}>
+    Button 3
+  </button>
+
+  <button style={{ padding: "10px 18px", border: "none", borderRadius: "8px", backgroundColor: "#f59e0b", color: "white", cursor: "pointer" }}>
+    Button 4
+  </button>
+
+  <button style={{ padding: "10px 18px", border: "none", borderRadius: "8px", backgroundColor: "#ef4444", color: "white", cursor: "pointer" }}>
+    Button 5
+  </button>
+
+</div>
               {/* CTA Buttons */}
               <motion.div
                 className="flex flex-wrap gap-4 pt-4"
